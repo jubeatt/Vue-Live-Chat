@@ -1,24 +1,53 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import {
+  createRouter,
+  createWebHistory,
+  NavigationGuardNext,
+  RouteLocationNormalized,
+  RouteRecordRaw
+} from 'vue-router'
+import Home from '../views/Home.vue'
+import ChatRoom from '../views/ChatRoom.vue'
+import { auth } from '@/firebase/config'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    name: 'Home',
+    component: Home,
+    beforeEnter: (
+      to: RouteLocationNormalized,
+      from: RouteLocationNormalized,
+      next: NavigationGuardNext
+    ) => {
+      const currentUser = auth.currentUser
+      if (currentUser) {
+        next({ name: 'ChatRoom' })
+      } else {
+        next()
+      }
+    }
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    path: '/chatroom',
+    name: 'ChatRoom',
+    component: ChatRoom,
+    beforeEnter: (
+      to: RouteLocationNormalized,
+      from: RouteLocationNormalized,
+      next: NavigationGuardNext
+    ) => {
+      const currentUser = auth.currentUser
+      if (currentUser) {
+        next()
+      } else {
+        next({ name: 'Home' })
+      }
+    }
   }
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes
 })
 

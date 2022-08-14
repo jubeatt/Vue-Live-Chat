@@ -2,6 +2,9 @@
 node_modules
 /dist
 
+fire*
+.fire*
+
 
 # local env files
 .env.local

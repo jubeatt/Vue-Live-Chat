@@ -1,5 +1,13 @@
-import { createApp } from 'vue'
+import { ComponentPublicInstance, createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+import '@/style/index.scss'
+import { auth } from './firebase/config'
 
-createApp(App).use(router).mount('#app')
+let app: ComponentPublicInstance
+
+auth.onAuthStateChanged(() => {
+  if (!app) {
+    app = createApp(App).use(router).mount('#app')
+  }
+})
