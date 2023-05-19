@@ -12,6 +12,12 @@
 
 ![demo](demo.gif)
 
+
+## 測試帳號
+
+- 帳號一：peanu@peanu.dev / 123456
+- 帳號二：ppb@peanu.dev / 123456
+
 ## 使用技術
 
 - Vue3 (CLI)
